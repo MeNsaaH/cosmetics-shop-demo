@@ -77,7 +77,6 @@
                     <li><a href="{% url 'cosmetics:shop' %}">Shop</a></li>
                     {% comment %}<li><a href="{% url 'cosmetics:product' %}">Product</a></li>{% endcomment %}
                     <li><a href="{% url 'cosmetics:cart' %}">Cart</a></li>
-                    <li><a href="{% url 'cosmetics:checkout' %}">Checkout</a></li>
                 </ul>
             </nav>
             <!-- Button Group -->
@@ -171,9 +170,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'cosmetics:cart' %}">Cart</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cosmetics:checkout' %}">Checkout</a>
-                                        </li>
+{% comment %}                                        <li class="nav-item">{% endcomment %}
+{% comment %}                                            <a class="nav-link" href="{% url 'cosmetics:checkout' %}">Checkout</a>{% endcomment %}
+{% comment %}                                        </li>{% endcomment %}
                                     </ul>
                                 </div>
                             </nav>

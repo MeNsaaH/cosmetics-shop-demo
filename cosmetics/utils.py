@@ -4,7 +4,8 @@ from cosmetics.models import Cart as CartModel, CartItem
 
 class Cart:
     def __init__(self, request):
-        cart_id = request.session.get('CART-ID')
+        cart_id = request.session.get('CART-ID', None)
+        self.request = request
         if cart_id:
             self.cart, _  = CartModel.objects.get_or_create(id=cart_id, checked_out=False)
         else:
@@ -30,3 +31,10 @@ class Cart:
 
     def total(self):
         return self.cart.items.all().aggregate(Sum('product__amount'))['product__amount__sum']
+
+    def checkout(self):
+        self.cart.checked_out = True
+        self.cart.save()
+        del self.request.session['CART-ID']
+#         self.request.session.flust()
+

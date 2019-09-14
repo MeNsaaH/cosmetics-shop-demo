@@ -1,5 +1,7 @@
 {% if messages %}
+<div class="position-absolute top-10 right-10 z-1000">
     {% for message in messages %}
-      <div {% if message.tags %} class="alert alert-{{ message.tags }} position-absolute right-10 top-10"{% endif %}>{{ message }}</div>
+      <div {% if message.tags %} class="alert alert-{{ message.tags }} rounded-0"{% endif %}>{{ message }}</div>
     {% endfor %}
+</div>
 {% endif %}

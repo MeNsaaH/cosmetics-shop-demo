@@ -6,7 +6,6 @@ from cosmetics.models import Product, Category
 from cosmetics.utils import Cart
 
 
-# TODO Switch all implementations to slugs
 class IndexView(ListView):
     template_name = "index.html"
     context_object_name = "products"
@@ -22,7 +21,6 @@ class ShopView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(kwargs)
         if kwargs.get('categories'):
             context['products'] = Product.objects.filter(category=kwargs['category'])
         else:
@@ -52,3 +50,8 @@ class CartView(TemplateView):
 class CheckoutView(TemplateView):
     template_name = "checkout.html"
 
+    def post(self, *args, **kwargs):
+        cart = Cart(self.request)
+        cart.checkout()
+        messages.success(self.request, f'Your Order is on Your Way.\nThank You for shopping with us')
+        return redirect(reverse('cosmetics:index'))
