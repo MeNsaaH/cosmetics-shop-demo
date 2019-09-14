@@ -1,23 +1,50 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from cosmetics.models import Product, Category
+from django.views.generic import DetailView, ListView, TemplateView
 
 
-def index(request):
+# TODO Switch all implementations to slugs
+class IndexView(ListView):
+    template_name = "index.html"
+    context_object_name = "products"
     # TODO Return products with highest ratings or newly added
-    return render(request, 'index.html')
+    queryset = Product.objects.all()
 
-def shop(request):
-    # TODO return Categories
-    # TODO Random Products
-    return render(request, 'shop.html')
 
-def product(request):
-    # TODO Return product specified by id
-    return render(request, 'product-details.html')
+class ShopView(ListView):
+    model = Category
+    template_name = "shop.html"
+    context_object_name = "categories"
+    queryset = Category.objects.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(kwargs)
+        if kwargs.get('categories'):
+            context['products'] = Product.objects.filter(category=kwargs['category'])
+        else:
+            context['products'] = Product.objects.all()
+        return context
 
-def cart(request):
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "product-details.html"
+    context_object_name = "product"
+    query_pk_and_slug = True
+
+    def post(self, *args, **kwargs):
+        product = self.get_object()
+        print(product, self.request.POST)
+        return redirect(reverse('cosmetics:product', args=(product.slug,)))
+
+
+class CartView(TemplateView):
+    template_name = "cart.html"
     # TODO return items in session
-    return render(request, 'cart.html')
 
-def checkout(request):
-    return render(request, 'checkout.html')
+
+class CheckoutView(TemplateView):
+    template_name = "checkout.html"
 

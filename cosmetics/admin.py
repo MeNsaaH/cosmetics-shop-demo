@@ -32,7 +32,6 @@ class UserAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     """ Product Model Admin """
-
     list_display = ('name', 'category', 'quantity')
     inlines = (
         ImageInline,
