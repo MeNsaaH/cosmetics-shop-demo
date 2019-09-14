@@ -1,0 +1,5 @@
+{% if messages %}
+    {% for message in messages %}
+      <div {% if message.tags %} class="alert alert-{{ message.tags }} position-absolute right-10 top-10"{% endif %}>{{ message }}</div>
+    {% endfor %}
+{% endif %}

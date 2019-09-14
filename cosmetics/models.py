@@ -84,6 +84,10 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} - {self.amount}"
 
+    @property
+    def price(self):
+        return self.amount
+
     def get_absolute_url(self):
         kwargs = {'slug': self.slug}
         return reverse('cosmetics:product', kwargs=kwargs)
@@ -109,3 +113,17 @@ class Checkout(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
     
+
+class Cart(models.Model):
+    checked_out = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.name}-{self.quantity}"

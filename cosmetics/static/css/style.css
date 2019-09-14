@@ -1,8 +1,8 @@
     /* ####################################################
-    :: Template Name: Essence - Fashion Ecommerce Template
+    :: Tpxplate Name: Essence - Fashion Ecommerce Tpxplate
     :: Author: Colorlib
     :: Author URL: https://colorlib.com
-    :: Description: Essence is smart & elegant fashion e-commerce Template. It's suitable for all e-commerce business platform.
+    :: Description: Essence is smart & elegant fashion e-commerce Tpxplate. It's suitable for all e-commerce business platform.
     :: Version: 1.0.0
     :: Created: April 27, 2018
     :: Last Updated: May 2, 2018
@@ -11,3 +11,27 @@
     /* ---------------------------------------
     ##### - PLACE YOUR CUSTOM CSS HERE - #####
     --------------------------------------- */
+.right-0 {
+  right: 0
+}
+
+.right-10 {
+  right: 10px
+}
+
+.left-0 {
+  left: 0
+}
+
+.left-10 {
+  left: 10px
+}
+
+.top-0 {
+  top: 0
+}
+
+.top-10 {
+  top: 10px
+}
+

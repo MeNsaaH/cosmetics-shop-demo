@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.urls import reverse
-from django.views.generic import DetailView, ListView, TemplateView
 from cosmetics.models import Product, Category
-from cosmetics.utils import Cart
+from django.views.generic import DetailView, ListView, TemplateView
 
 
 # TODO Switch all implementations to slugs
@@ -39,14 +37,27 @@ class ProductDetailView(DetailView):
     def post(self, *args, **kwargs):
         product = self.get_object()
         quantity = int(self.request.POST.get('quantity', 0))
-        cart = Cart(self.request)
-        cart.add(product, quantity)
-        messages.success(self.request, f'{product} has being added to cart')
+        cart = self.request.session.get('cart', {})
+        cart_product = cart.get(product.slug, {}) 
+        cart[product.slug] = {
+            'quantity': cart_product.get('quantity', 0) + 1, 
+            'name': product.name, 
+            'max_quantity': product.quantity, 
+            'url': product.picture.url,
+            'price': product.price
+        }
+        self.request.session['cart'] = cart
         return redirect(reverse('cosmetics:product', args=(product.slug,)))
 
 
 class CartView(TemplateView):
     template_name = "cart.html"
+    # TODO return items in session
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = self.request.session.get('cart', {})
+        return context
 
 
 class CheckoutView(TemplateView):
